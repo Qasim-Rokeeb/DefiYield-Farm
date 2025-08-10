@@ -1,87 +1,115 @@
 
 
-# 📄 Solidity Smart Contract Project
+# 🌾 YieldFarm Smart Contract
 
-This repository contains a Solidity-based smart contract project. It is part of my ongoing work in building decentralized applications and experimenting with Ethereum-compatible blockchain development.
+A Solidity-based **ETH staking and reward distribution** system where users can stake ETH to earn continuous rewards over time. Rewards are distributed proportionally to each staker’s share and the time they have staked.
 
 ---
 
 ## 📌 Overview
 
-* Written in **Solidity**.
-* Designed for **EVM-compatible networks** (e.g., Ethereum, Base, Polygon, etc.).
-* Project is **not yet verified** on the blockchain explorer — verification will be added in a future update.
+* **Purpose:** Enable ETH staking with time-based reward accrual.
+* **Reward Model:** Rewards are calculated per second and distributed proportionally to stakers.
+* **Owner Role:** Can deposit rewards and perform emergency withdrawals.
+
+**Deployed & Verified on Base Sepolia:**
+`0xC8aB287C70D75041E4f0f47AE67F13e0D29D1460`
+🔍 [View Verified Contract on BaseScan](https://sepolia.basescan.org/address/0xC8aB287C70D75041E4f0f47AE67F13e0D29D1460#code) ✅
 
 ---
 
-## ⚙️ Development Details
+## ⚙️ Features
 
-* **Language:** Solidity `^0.8.x`
-* **Frameworks/Tools:** Remix, Hardhat, or Foundry (depending on the project)
-* **Target Networks:** Ethereum testnets (e.g., Sepolia, Base Sepolia) or mainnet
+* **Stake ETH** and start earning rewards instantly.
+* **Unstake ETH** anytime, with pending rewards paid out automatically.
+* **View Pending Rewards** at any time via `pendingReward`.
+* **Owner Functions:**
 
----
-
-## 🚀 Getting Started
-
-### Requirements
-
-* Node.js & npm (if using Hardhat/Foundry)
-* MetaMask or another Web3 wallet
-* Testnet ETH for deployment
-
-### Installation
-
-Clone the repository:
-
-```bash
-git clone <repository-url>
-cd <project-folder>
-```
-
-Install dependencies (if applicable):
-
-```bash
-npm install
-```
+  * Deposit rewards into the pool.
+  * Emergency withdraw all ETH from the contract.
 
 ---
 
 ## 🛠 Deployment
 
-You can deploy this contract via:
+### Requirements
 
-* **Remix** (web-based IDE)
-* **Hardhat** (local development environment)
-* **Foundry** (fast testing & deployment)
+* Solidity `^0.8.19`
+* Base Sepolia network
+* ETH balance for deployment gas fees
 
-Example (Hardhat):
+### Example Deployment
 
-```bash
-npx hardhat run scripts/deploy.js --network sepolia
+```solidity
+YieldFarm farm = new YieldFarm(1e15); // Reward rate: 0.001 ETH/sec
 ```
+
+* `_rewardPerSecond` defines how much ETH is rewarded each second, in wei.
+
+---
+
+## 📜 Functions
+
+### **stake()** (payable)
+
+Stake ETH into the contract.
+
+* Calculates and sends pending rewards before adding new stake.
+* **Emits:** `Deposit`, `RewardClaimed` (if applicable).
+
+---
+
+### **unstake(uint256 \_amount)**
+
+Withdraw staked ETH from the contract.
+
+* Calculates and sends pending rewards before unstaking.
+* **Emits:** `Withdraw`, `RewardClaimed` (if applicable).
+
+---
+
+### **pendingReward(address \_user)**
+
+View pending rewards for a user.
+
+* Returns: reward amount in wei.
+
+---
+
+### **depositRewards()** (payable, onlyOwner)
+
+Deposit ETH to fund rewards.
+
+---
+
+### **emergencyWithdraw()** (onlyOwner)
+
+Withdraw all ETH from the contract (both staked amounts and rewards).
 
 ---
 
 ## 🧪 Testing
 
-Run tests locally (if provided):
+To test locally using Hardhat:
 
 ```bash
+npm install
 npx hardhat test
 ```
 
----
+Possible tests:
 
-## 📜 Verification Status
-
-* **Current Status:** ❌ Not Verified
-* The contract will be verified in future updates once final deployment is complete.
+* User stakes and accrues rewards.
+* Multiple users staking at different times.
+* Owner deposits rewards.
+* Emergency withdrawal behavior.
 
 ---
 
 ## 📄 License
 
-MIT License – You are free to use, modify, and distribute this project.
+MIT License – Free to use and modify.
 
 ---
+
+
