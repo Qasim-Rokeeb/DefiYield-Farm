@@ -2,15 +2,16 @@
 
 # 🌾 YieldFarm Smart Contract
 
-A Solidity-based **ETH staking and reward distribution** system where users can stake ETH to earn continuous rewards over time. Rewards are distributed proportionally to each staker’s share and the time they have staked.
+A Solidity-powered **ETH staking and reward distribution** system where users can stake ETH and earn rewards continuously over time.
+Rewards are calculated per second and distributed proportionally based on each staker’s share and staking duration.
 
 ---
 
 ## 📌 Overview
 
-* **Purpose:** Enable ETH staking with time-based reward accrual.
-* **Reward Model:** Rewards are calculated per second and distributed proportionally to stakers.
-* **Owner Role:** Can deposit rewards and perform emergency withdrawals.
+* **Purpose:** Provide a secure ETH staking mechanism with automatic, time-based reward accrual.
+* **Reward Model:** Rewards are generated every second and distributed proportionally to stakers.
+* **Owner Role:** Able to deposit rewards and perform emergency withdrawals.
 
 **Deployed & Verified on Base Sepolia:**
 `0xC8aB287C70D75041E4f0f47AE67F13e0D29D1460`
@@ -18,14 +19,14 @@ A Solidity-based **ETH staking and reward distribution** system where users can 
 
 ---
 
-## ⚙️ Features
+## ⚙️ Key Features
 
 * **Stake ETH** and start earning rewards instantly.
-* **Unstake ETH** anytime, with pending rewards paid out automatically.
-* **View Pending Rewards** at any time via `pendingReward`.
-* **Owner Functions:**
+* **Unstake ETH** anytime, with automatic payout of pending rewards.
+* **View Pending Rewards** via the `pendingReward` function.
+* **Owner Controls:**
 
-  * Deposit rewards into the pool.
+  * Deposit ETH rewards into the pool.
   * Emergency withdraw all ETH from the contract.
 
 ---
@@ -36,73 +37,73 @@ A Solidity-based **ETH staking and reward distribution** system where users can 
 
 * Solidity `^0.8.19`
 * Base Sepolia network
-* ETH balance for deployment gas fees
+* ETH for deployment gas fees
 
 ### Example Deployment
 
 ```solidity
-YieldFarm farm = new YieldFarm(1e15); // Reward rate: 0.001 ETH/sec
+YieldFarm farm = new YieldFarm(1e15); // 0.001 ETH rewarded per second
 ```
 
-* `_rewardPerSecond` defines how much ETH is rewarded each second, in wei.
+> `_rewardPerSecond` specifies the ETH reward rate in **wei** per second.
 
 ---
 
-## 📜 Functions
+## 📜 Function Summary
 
 ### **stake()** (payable)
 
 Stake ETH into the contract.
 
-* Calculates and sends pending rewards before adding new stake.
-* **Emits:** `Deposit`, `RewardClaimed` (if applicable).
+* Updates reward distribution before adding the new stake.
+* **Emits:** `Deposit`, `RewardClaimed` (if rewards are due).
 
 ---
 
 ### **unstake(uint256 \_amount)**
 
-Withdraw staked ETH from the contract.
+Withdraw staked ETH.
 
-* Calculates and sends pending rewards before unstaking.
-* **Emits:** `Withdraw`, `RewardClaimed` (if applicable).
+* Updates reward distribution before unstaking.
+* **Emits:** `Withdraw`, `RewardClaimed` (if rewards are due).
 
 ---
 
 ### **pendingReward(address \_user)**
 
-View pending rewards for a user.
+View the pending ETH rewards for a specific address.
 
-* Returns: reward amount in wei.
+* **Returns:** Amount in wei.
 
 ---
 
 ### **depositRewards()** (payable, onlyOwner)
 
-Deposit ETH to fund rewards.
+Deposit ETH to fund staking rewards.
 
 ---
 
 ### **emergencyWithdraw()** (onlyOwner)
 
-Withdraw all ETH from the contract (both staked amounts and rewards).
+Withdraw **all ETH** from the contract — both staked funds and rewards.
 
 ---
 
 ## 🧪 Testing
 
-To test locally using Hardhat:
+Run local tests using **Hardhat**:
 
 ```bash
 npm install
 npx hardhat test
 ```
 
-Possible tests:
+**Recommended test cases:**
 
-* User stakes and accrues rewards.
+* Single user stakes and earns rewards.
 * Multiple users staking at different times.
-* Owner deposits rewards.
-* Emergency withdrawal behavior.
+* Owner deposits additional rewards.
+* Emergency withdrawal by the owner.
 
 ---
 
@@ -111,5 +112,4 @@ Possible tests:
 MIT License – Free to use and modify.
 
 ---
-
 
