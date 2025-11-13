@@ -101,7 +101,7 @@ npx hardhat test
 **Recommended test cases:**
 
 * Single user stakes and earns rewards.
-* Multiple users staking at different times.
+* Multiple users staking at different time
 * Owner deposits additional rewards.
 * Emergency withdrawal by the owner.
 
